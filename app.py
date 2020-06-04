@@ -38,20 +38,36 @@ def processRequest(req):
     latlon_res = observation.get_location()
     lat = str(latlon_res.get_lat())
     lon = str(latlon_res.get_lon())
-
+    #check https://pyowm.readthedocs.io/en/latest/ for more pyowm commands
     wind_res = w.get_wind()
     wind_speed = str(wind_res.get('speed'))
 
     humidity = str(w.get_humidity())
 
     celsius_result = w.get_temperature('celsius')
+    #this is a dict {'temp': 26.45, 'temp_max': 29.44, 'temp_min': 24.0, 'temp_kf': None}
+    current_temp_celsius = celsius_result.get('temp')
+    current_temperature = str(celsius_result.get('temp'))
     temp_min_celsius = str(celsius_result.get('temp_min'))
     temp_max_celsius = str(celsius_result.get('temp_max'))
 
     fahrenheit_result = w.get_temperature('fahrenheit')
     temp_min_fahrenheit = str(fahrenheit_result.get('temp_min'))
     temp_max_fahrenheit = str(fahrenheit_result.get('temp_max'))
-    speech = "Today the weather in " + city + ": \n" + "Humidity :" + humidity + ".\n Wind Speed :" + wind_speed
+    #speech = "Today the weather of " + city + ": \n" + "Humidity :" + humidity + ".\nWind Speed :" + wind_speed
+
+    #print(celsius_result)
+    if current_temp_celsius < 20:
+        weather_type = "Cold"
+    elif current_temp_celsius > 20 and current_temp_celsius < 30:
+        weather_type = "Pleasant"
+    elif current_temp_celsius >30 and current_temp_celsius < 40:
+        weather_type = "Hot"
+    else:
+        weather_type = "Very Hot"
+
+    temp_details = "Current temperature(°C): " + current_temperature + " (min,max):(" + temp_min_celsius + "," + temp_max_celsius +")"
+    speech = "Today the weather of " + city + " is " + weather_type + ". \n" + temp_details + "\nHumidity :" + humidity + ".\nWind Speed :" + wind_speed
 
     return {
         "fulfillmentText": speech,
