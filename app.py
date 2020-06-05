@@ -36,10 +36,12 @@ def processRequest(req):
     observation = owm.weather_at_place(city)
     w = observation.get_weather()
     latlon_res = observation.get_location()
+    #print(latlon_res)
     lat = str(latlon_res.get_lat())
     lon = str(latlon_res.get_lon())
     #check https://pyowm.readthedocs.io/en/latest/ for more pyowm commands
     wind_res = w.get_wind()
+    #print(wind_res)
     wind_speed = str(wind_res.get('speed'))
 
     humidity = str(w.get_humidity())
@@ -57,17 +59,19 @@ def processRequest(req):
     #speech = "Today the weather of " + city + ": \n" + "Humidity :" + humidity + ".\nWind Speed :" + wind_speed
 
     #print(celsius_result)
-    if current_temp_celsius < 20:
+    if current_temp_celsius < 10:
+        weather_type = "Very Cold"
+    elif current_temp_celsius >= 10 and current_temp_celsius <=20:
         weather_type = "Cold"
-    elif current_temp_celsius > 20 and current_temp_celsius < 30:
+    elif current_temp_celsius > 20 and current_temp_celsius <=30:
         weather_type = "Pleasant"
-    elif current_temp_celsius >30 and current_temp_celsius < 40:
+    elif current_temp_celsius >30 and current_temp_celsius <=40:
         weather_type = "Hot"
     else:
         weather_type = "Very Hot"
 
-    temp_details = "Current temperature(°C): " + current_temperature + " (min,max):(" + temp_min_celsius + "," + temp_max_celsius +")"
-    speech = "Today the weather of " + city + " is " + weather_type + ". \n" + temp_details + "\nHumidity :" + humidity + ".\nWind Speed :" + wind_speed
+    temp_details = "Current temperature: " + current_temperature + " °C"+"\n (min,max):(" + temp_min_celsius + "," + temp_max_celsius +")"
+    speech = "Today the weather of " + city + " is " + weather_type + ". \n" + temp_details + "\n\nHumidity :" + humidity + " g.kg-1"+".\n\nWind Speed: " + wind_speed + " km/hr"
 
     return {
         "fulfillmentText": speech,
