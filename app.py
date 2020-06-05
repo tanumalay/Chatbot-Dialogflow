@@ -71,7 +71,7 @@ def processRequest(req):
         weather_type = "Very Hot"
 
     temp_details = "Current temperature: " + current_temperature + " °C"+"\n (min,max):(" + temp_min_celsius + "," + temp_max_celsius +")"
-    speech = "Today the weather of " + city + " is " + weather_type + ". \n" + temp_details + "\n\nHumidity :" + humidity + " g.kg-1"+".\n\nWind Speed: " + wind_speed + " km/hr"
+    speech = "Today the weather of " + city + " is " + weather_type + ". \n\n" + temp_details + "\n\nHumidity :" + humidity + " g.kg-1"+"\nWind Speed: " + wind_speed + " km/hr"
 
     return {
         "fulfillmentText": speech,
