@@ -33,6 +33,8 @@ def processRequest(req):
     result = req.get("queryResult")
     parameters = result.get("parameters")
     city = parameters.get("city_name")
+    if city in ['prayagraj','Prayagraj','pragraj' ]:
+       city='Allahabad'
     observation = owm.weather_at_place(city)
     w = observation.get_weather()
     latlon_res = observation.get_location()
