@@ -34,7 +34,11 @@ def processRequest(req):
     parameters = result.get("parameters")
     city = parameters.get("city_name")
     if city in ['prayagraj','Prayagraj','pragraj' ]:
-       city='Allahabad'
+        city='Allahabad'
+    elif city in ['bye','Bye','bbye']:
+        city=''
+    else:
+        city
     observation = owm.weather_at_place(city)
     w = observation.get_weather()
     latlon_res = observation.get_location()
